@@ -1,0 +1,23 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Transacties {
+  id            Int      @id @default(autoincrement())
+  omschrijving  String
+  type          String
+  bedrag        Float
+  datum         DateTime
+  door          String
+  betaald       Boolean
+  categorie     String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+// vind een manier voor een beginbedrag
