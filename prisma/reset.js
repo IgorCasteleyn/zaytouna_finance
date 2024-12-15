@@ -1,9 +1,11 @@
-const prisma = require("@lib/prisma");
+const { PrismaClient } = require("@prisma/client");
+
+const prisma = new PrismaClient();
 
 async function main() {
   // Verwijder alle data uit de `transacties` tabel
   await prisma.transacties.deleteMany({});
-
+  
   // Verwijder alle data uit de `configuratie` tabel
   await prisma.configuratie.deleteMany({});
 

@@ -1,4 +1,5 @@
 import "./globals.css";
+import Navbar from "@/components/Navbar";
 
 export const metadata = {
   title: "Create Next App",
@@ -8,7 +9,12 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`antialiased`}>{children}</body>
+      <body className="flex flex-col min-h-screen">
+        <header>
+          <Navbar />
+        </header>
+        <main className="flex-grow antialiased">{children}</main>
+      </body>
     </html>
   );
 }
