@@ -20,4 +20,8 @@ model Transacties {
   updatedAt     DateTime @updatedAt
 }
 
-// vind een manier voor een beginbedrag
+model Configuratie {
+  id            Int    @id @default(autoincrement())
+  value         Float
+  academiejaar  String
+}
