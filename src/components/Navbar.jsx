@@ -7,7 +7,7 @@ const Navbar = () => {
   const pathname = usePathname();
 
   return (
-    <nav className="bg-foreground shadow text-foreground">
+    <nav className="bg-foreground shadow text-background">
       <div className="container flex items-center justify-center p-6 mx-auto  capitalize ">
         <Link
           href="/"
