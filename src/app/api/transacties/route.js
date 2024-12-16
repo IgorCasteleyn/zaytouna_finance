@@ -17,18 +17,27 @@ export async function POST(req) {
     const body = await req.json();
     const { omschrijving, type, bedrag, datum, door, betaald, categorie } =
       body;
-    const nieuweTransactie = await prisma.transacties.create({
+
+    if (!omschrijving || !type || !bedrag || !datum || !door || !categorie) {
+      return new Response(
+        JSON.stringify({ error: "Vul alle verplichte velden in." }),
+        { status: 400 }
+      );
+    }
+
+    const newTransactie = await prisma.transacties.create({
       data: {
         omschrijving,
         type,
-        bedrag,
+        bedrag: parseFloat(bedrag),
         datum: new Date(datum),
         door,
         betaald,
         categorie,
       },
     });
-    return new Response(JSON.stringify(nieuweTransactie), { status: 201 });
+
+    return new Response(JSON.stringify(newTransactie), { status: 201 });
   } catch (error) {
     return new Response(JSON.stringify({ error: error.message }), {
       status: 500,

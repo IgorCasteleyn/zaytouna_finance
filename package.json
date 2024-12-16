@@ -13,11 +13,13 @@
   },
   "dependencies": {
     "@prisma/client": "^6.0.1",
+    "@supabase/supabase-js": "^2.47.8",
     "next": "15.1.0",
     "prisma": "^6.0.1",
     "react": "^19.0.0",
     "react-data-table-component": "^7.6.2",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "zaytouna_finance": "file:"
   },
   "devDependencies": {
     "postcss": "^8",
