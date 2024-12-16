@@ -15,9 +15,28 @@ export async function GET(req) {
 export async function POST(req) {
   try {
     const body = await req.json();
-    const { omschrijving, type, bedrag, datum, door, betaald, categorie } =
-      body;
 
+    // Controleer of de body geldig is en of het een object is
+    if (!body || typeof body !== "object") {
+      return new Response(
+        JSON.stringify({ error: "Ongeldige payload ontvangen" }),
+        { status: 400 }
+      );
+    }
+
+    const {
+      omschrijving,
+      type,
+      bedrag,
+      datum,
+      door,
+      betaald,
+      categorie,
+      naamFoto,
+      fotoUrl,
+    } = body;
+
+    // Zorg ervoor dat alle verplichte velden aanwezig zijn
     if (!omschrijving || !type || !bedrag || !datum || !door || !categorie) {
       return new Response(
         JSON.stringify({ error: "Vul alle verplichte velden in." }),
@@ -34,12 +53,14 @@ export async function POST(req) {
         door,
         betaald,
         categorie,
+        naamFoto,
+        fotoUrl,
       },
     });
 
     return new Response(JSON.stringify(newTransactie), { status: 201 });
   } catch (error) {
-    console.log("Fout in API:", error);
+    console.log("Volledige fout:", error); // Log het volledige error object
     return new Response(JSON.stringify({ error: error.message }), {
       status: 500,
     });

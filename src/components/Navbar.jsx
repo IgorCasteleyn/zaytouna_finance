@@ -22,6 +22,12 @@ const Navbar = () => {
         >
           Toevoegen
         </Link>
+        <Link
+          href="/transacties"
+          className={`mx-1.5 sm:mx-6 border-b-2 hover:border-blue-500 ${pathname === "/transacties" ? 'border-blue-500' : 'border-transparent'}`}
+        >
+          Transacties
+        </Link>
       </div>
     </nav>
   );

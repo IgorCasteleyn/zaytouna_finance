@@ -5,9 +5,7 @@ const prisma = new PrismaClient();
 async function main() {
   // Voeg configuratie toe
   await prisma.configuratie.createMany({
-    data: [
-      { value: 641.55, academiejaar: "2024-2025" },
-    ],
+    data: [{ value: 641.55, academiejaar: "2024-2025" }],
   });
 
   console.log("Initieel beginbedrag is toegevoegd.");
@@ -23,6 +21,7 @@ async function main() {
         door: "Jan Jansen",
         betaald: true,
         categorie: "Lidgeld",
+        naamFoto: "/",fotoUrl: "/",
       },
       {
         omschrijving: "Aankoop schoonmaakmateriaal",
@@ -32,6 +31,7 @@ async function main() {
         door: "Marie De Vries",
         betaald: true,
         categorie: "Materiaal",
+        naamFoto: "/",fotoUrl: "/",
       },
       {
         omschrijving: "Sponsoring evenement",
@@ -41,6 +41,7 @@ async function main() {
         door: "Bedrijf X",
         betaald: true,
         categorie: "Sponsoring",
+        naamFoto: "/",fotoUrl: "/",
       },
       {
         omschrijving: "Huur vergaderruimte",
@@ -50,6 +51,7 @@ async function main() {
         door: "Vergaderzaal Y",
         betaald: false,
         categorie: "Huur",
+        naamFoto: "/",fotoUrl: "/",
       },
     ],
   });

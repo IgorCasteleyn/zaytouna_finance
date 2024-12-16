@@ -1,4 +1,3 @@
-import TransactieTabel from "@/components/TransactieTabel";
 import HuidigBedrag from "@/components/HuidigBedrag";
 
 export default function Home() {
@@ -6,7 +5,6 @@ export default function Home() {
     <div className="p-8">
       <h1 className="text-2xl font-bold">Dashboard</h1>
       <HuidigBedrag />
-      <TransactieTabel />
     </div>
   );
 }

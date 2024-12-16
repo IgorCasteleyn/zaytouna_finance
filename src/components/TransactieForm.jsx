@@ -10,8 +10,10 @@ const TransactieForm = () => {
     door: "",
     betaald: false,
     categorie: "",
+    naamFoto: "",
+    fotoUrl: "/"
   });
-  const [file, setFile] = useState(null); // Bestand voor uploaden
+  const [file, setFile] = useState(null); // State for the file
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(null);
@@ -25,7 +27,21 @@ const TransactieForm = () => {
   };
 
   const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
+    const selectedFile = e.target.files[0];
+    if (selectedFile) {
+      // Simple file validation (optional)
+      const validTypes = ["image/jpeg", "image/png", "image/jpg"];
+      const maxSize = 5 * 1024 * 1024; // 5MB
+      if (!validTypes.includes(selectedFile.type)) {
+        alert("Alleen JPG, JPEG of PNG bestanden zijn toegestaan.");
+        return;
+      }
+      if (selectedFile.size > maxSize) {
+        alert("Bestand te groot. Maximaal 5MB.");
+        return;
+      }
+      setFile(selectedFile);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -50,7 +66,7 @@ const TransactieForm = () => {
       // 2. Als er een foto is, upload deze
       if (file) {
         const fileData = new FormData();
-        const fileName = `${formData.omschrijving}-${Date.now()}.${file.name.split('.').pop()}`; // Dynamische naam
+        const fileName = formData.naamFoto || file.name; // Dynamische naam (use file name if no naamFoto)
         fileData.append("file", file, fileName);
         fileData.append("transactieId", transactie.id);
 
@@ -62,6 +78,9 @@ const TransactieForm = () => {
         if (!uploadResponse.ok) {
           throw new Error("Fout bij het uploaden van de afbeelding.");
         }
+
+        // Reset file after successful upload
+        setFile(null);
       }
 
       setSuccess(true);
@@ -73,8 +92,9 @@ const TransactieForm = () => {
         door: "",
         betaald: false,
         categorie: "",
+        naamFoto: "",
+        fotoUrl: "/"
       });
-      setFile(null);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -191,6 +211,19 @@ const TransactieForm = () => {
               className="mt-1 block w-full border-gray-300 h-8 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500"
             />
           </div>
+          {/* Naam Foto */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Naam Foto
+            </label>
+            <input
+              type="text"
+              name="naamFoto"
+              value={formData.naamFoto}
+              onChange={handleInputChange}
+              className="mt-1 block w-full border-gray-300 h-8 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            />
+          </div>
           {/* Foto Upload */}
           <div>
             <label>Foto (optioneel)</label>
@@ -211,6 +244,5 @@ const TransactieForm = () => {
     </div>
   );
 };
-
 
 export default TransactieForm;
