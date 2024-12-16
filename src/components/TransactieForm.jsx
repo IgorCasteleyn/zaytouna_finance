@@ -35,7 +35,7 @@ const TransactieForm = () => {
     const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
-      [name]: type === "checkbox" ? checked : value,
+      [name]: type === "checkbox" ? checked : value === "true" ? true : value === "false" ? false : value,
     });
   };
 
@@ -213,8 +213,8 @@ const TransactieForm = () => {
               onChange={handleInputChange}
               className="mt-1 block w-full border-gray-300 h-8 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500"
             >
-              <option value={true}>Ja</option>
-              <option value={false}>Nee</option>
+              <option value="true">Ja</option>
+              <option value="false">Nee</option>
             </select>
           </div>
           {/* Categorie */}
