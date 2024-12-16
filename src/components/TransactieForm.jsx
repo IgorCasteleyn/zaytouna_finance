@@ -118,6 +118,7 @@ const TransactieForm = () => {
               onChange={handleInputChange}
               className="mt-1 block w-full border-gray-300 h-8 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500"
             >
+              <option value="" disabled>Kies een type</option>
               <option value="inkomst">Inkomst</option>
               <option value="uitgave">Uitgave</option>
             </select>

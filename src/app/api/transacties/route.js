@@ -39,6 +39,7 @@ export async function POST(req) {
 
     return new Response(JSON.stringify(newTransactie), { status: 201 });
   } catch (error) {
+    console.log("Fout in API:", error);
     return new Response(JSON.stringify({ error: error.message }), {
       status: 500,
     });
