@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const TransactieForm = () => {
   const [formData, setFormData] = useState({
@@ -17,6 +17,19 @@ const TransactieForm = () => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(null);
+  const [categories, setCategories] = useState([]); // State for categories
+  const [newCategory, setNewCategory] = useState(''); // State for new category input
+
+  // Fetch categories from API
+  useEffect(() => {
+    const fetchCategories = async () => {
+      const response = await fetch("/api/categorien"); // Corrected to /api/categorien
+      const data = await response.json();
+      setCategories(data);
+    };
+
+    fetchCategories();
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -132,15 +145,16 @@ const TransactieForm = () => {
             <label className="block text-sm font-medium text-gray-700">
               Type
             </label>
-            <select name="type"
+            <select
+              name="type"
               value={formData.type}
               required
               onChange={handleInputChange}
               className="mt-1 block w-full border-gray-300 h-8 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500"
             >
               <option value="" disabled>Kies een type</option>
-              <option value="inkomst">Inkomst</option>
-              <option value="uitgave">Uitgave</option>
+              <option value="Inkomst">Inkomst</option>
+              <option value="Uitgave">Uitgave</option>
             </select>
           </div>
           {/* Bedrag */}
@@ -152,6 +166,7 @@ const TransactieForm = () => {
               type="number"
               name="bedrag"
               step="0.01"
+              min={0}
               value={formData.bedrag}
               onChange={handleInputChange}
               required
@@ -187,29 +202,51 @@ const TransactieForm = () => {
             />
           </div>
           {/* Betaald */}
-          <div className="flex items-center">
-            <input
-              type="checkbox"
+          <div>
+            <label className="block text-sm font-medium text-gray-700">
+              Terug betaald?
+            </label>
+            <select
               name="betaald"
-              checked={formData.betaald}
+              value={formData.betaald}
+              required
               onChange={handleInputChange}
-              className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-            />
-            <label className="ml-2 block text-sm text-gray-700">Betaald</label>
+              className="mt-1 block w-full border-gray-300 h-8 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            >
+              <option value={true}>Ja</option>
+              <option value={false}>Nee</option>
+            </select>
           </div>
           {/* Categorie */}
           <div>
             <label className="block text-sm font-medium text-gray-700">
               Categorie
             </label>
-            <input
-              type="text"
+            <select
               name="categorie"
               value={formData.categorie}
               onChange={handleInputChange}
               required
               className="mt-1 block w-full border-gray-300 h-8 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500"
-            />
+            >
+              <option value="" disabled>Selecteer een categorie</option>
+              {categories.map((category) => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+              <option value="new">Nieuwe categorie...</option>
+            </select>
+            {formData.categorie === 'new' && (
+              <input
+                type="text"
+                name="categorie"
+                value={newCategory}
+                onChange={(e) => setNewCategory(e.target.value)}
+                placeholder="Typ een nieuwe categorie"
+                className="mt-1 block w-full border-gray-300 h-8 rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              />
+            )}
           </div>
           {/* Naam Foto */}
           <div>

@@ -26,25 +26,58 @@ const TransactieTabel = () => {
 
   const columns = [
     {
-      name: "ID",
-      selector: (row) => row.id,
+      name: "Datum",
+      selector: (row) => {
+        const datum = new Date(row.datum);
+        return datum.toLocaleDateString("nl-BE", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        });
+      },
       sortable: true,
     },
     {
       name: "Bedrag",
-      selector: (row) => row.bedrag,
+      selector: (row) => {
+        const bedrag = row.bedrag;
+        const type = row.type;
+
+        // Als het type een uitgave is, zet het bedrag in het rood met een minteken
+        if (type === "Uitgave") {
+          return <span className="text-red-500">- €{bedrag.toFixed(2)}</span>;
+        }
+
+        // Als het type een inkomst is, zet het bedrag in het groen met een plusteken
+        if (type === "Inkomst") {
+          return <span className="text-green-500">+ €{bedrag.toFixed(2)}</span>;
+        }
+
+        return `€${bedrag.toFixed(2)}`;
+      },
       sortable: true,
     },
     {
-      name: "Datum",
-      selector: (row) => row.datum,
-      sortable: true,
+      name: "Categorie",
+      selector: (row) => row.categorie,
+      sortable: true
     },
+    {
+      name: "Door",
+      selector: (row) => row.door,
+      sortable: true
+    },
+
     {
       name: "Omschrijving",
       selector: (row) => row.omschrijving,
       sortable: true,
     },
+    {
+      name: "Terugbetaald?",
+      selector: (row) => (row.betaald ? "Ja" : "Nee"),
+      sortable: true,
+    }
   ];
 
   return (
